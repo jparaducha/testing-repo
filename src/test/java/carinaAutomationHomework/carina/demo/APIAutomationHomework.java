@@ -4,6 +4,7 @@ package carinaAutomationHomework.carina.demo;
 import carinaAutomationHomework.carina.demo.api.GetPostAutomation;
 import carinaAutomationHomework.carina.demo.api.PatchPostAutomation;
 import carinaAutomationHomework.carina.demo.api.PostPostAutomation;
+import carinaAutomationHomework.carina.demo.api.PostPostAutomation2;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.api.APIMethodPoller;
 import com.qaprosoft.carina.core.foundation.api.http.HttpResponseStatusType;
@@ -57,12 +58,18 @@ public class APIAutomationHomework {
     @MethodOwner(owner = "paraducha")
     public void TestPostWithMissingField (){
 
-        PostPostAutomation api = new PostPostAutomation();
-        api.setProperties("api/posts/post2.properties");
+        PostPostAutomation2 api = new PostPostAutomation2();
+        //api.setProperties("api/posts/post2.properties");
+        api.getProperties().remove("userId");
+
+
+
+        api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
+        api.callAPI();
+        /*
 
 
         AtomicInteger counter = new AtomicInteger(0);
-
         api.callAPIWithRetry()
                 .withLogStrategy(APIMethodPoller.LogStrategy.ALL)
                 .peek(rs -> counter.getAndIncrement())
@@ -70,6 +77,8 @@ public class APIAutomationHomework {
                 .pollEvery(1, ChronoUnit.SECONDS)
                 .stopAfter(10, ChronoUnit.SECONDS)
                 .execute();
+
+         */
         api.validateResponse();
     }
 

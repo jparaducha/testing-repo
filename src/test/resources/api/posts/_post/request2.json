@@ -1,5 +1,5 @@
 {
   "title" : "second test",
-  "body" : "second test with missing field",
   <#if userId??>"userId": "${userId}",</#if>
+  "body" : "second test with missing field"
 }
