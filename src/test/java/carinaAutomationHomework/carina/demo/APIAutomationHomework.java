@@ -28,7 +28,7 @@ public class APIAutomationHomework {
         getPostAutomation.expectResponseStatus(HttpResponseStatusType.OK_200);
         getPostAutomation.callAPI();
         getPostAutomation.validateResponse(JSONCompareMode.STRICT, JsonCompareKeywords.ARRAY_CONTAINS.getKey());
-        getPostAutomation.validateResponseAgainstSchema("api/users/_get/response.schema");
+        getPostAutomation.validateResponseAgainstSchema("api/posts/_get/response.schema");
     }
 
 
@@ -37,7 +37,7 @@ public class APIAutomationHomework {
     public void TestPostPost (){
 
         PostPostAutomation api = new PostPostAutomation();
-        api.setProperties("api/users/user.properties");
+        api.setProperties("api/posts/user.properties");
 
 
         AtomicInteger counter = new AtomicInteger(0);
@@ -58,7 +58,7 @@ public class APIAutomationHomework {
     public void TestPostWithMissingField (){
 
         PostPostAutomation api = new PostPostAutomation();
-        api.setProperties("api/users/post2.properties");
+        api.setProperties("api/posts/post2.properties");
 
 
         AtomicInteger counter = new AtomicInteger(0);
@@ -80,7 +80,7 @@ public class APIAutomationHomework {
     public void TestPatchPost(){
 
         PatchPostAutomation api = new PatchPostAutomation();
-        api.setProperties("api/users/user.properties");
+        api.setProperties("api/posts/user.properties");
 
         AtomicInteger counter = new AtomicInteger(0);
 

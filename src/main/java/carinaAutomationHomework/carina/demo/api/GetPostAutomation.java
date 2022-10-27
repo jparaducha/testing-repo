@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class GetPostAutomation extends AbstractApiMethodV2 {
     public GetPostAutomation (){
-        super(null, "api/users/_get/response.json", new Properties());
+        super(null, "api/posts/_get/response.json", new Properties());
         replaceUrlPlaceholder("base_url", Configuration.getEnvArg("api_url"));
     }
 }

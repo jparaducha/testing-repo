@@ -5,9 +5,9 @@ import com.qaprosoft.carina.core.foundation.utils.Configuration;
 
 public class PostPostAutomation extends AbstractApiMethodV2 {
     public PostPostAutomation(){
-        super("api/users/_post/request.json",
-                "api/users/_post/response.json",
-                "api/users/user.properties");
+        super("api/posts/_post/request.json",
+                "api/posts/_post/response.json",
+                "api/posts/user.properties");
         replaceUrlPlaceholder("base_url", Configuration.getEnvArg("api_url"));
     }
 }
