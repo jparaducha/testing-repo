@@ -59,14 +59,14 @@ public class APIAutomationHomework {
     public void TestPostWithMissingField (){
 
         PostPostAutomation2 api = new PostPostAutomation2();
-        //api.setProperties("api/posts/post2.properties");
+        api.setProperties("api/posts/user.properties");
         api.getProperties().remove("userId");
 
 
 
-        api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
-        api.callAPI();
-        /*
+        //api.expectResponseStatus(HttpResponseStatusType.CREATED_201);
+        //api.callAPI();
+
 
 
         AtomicInteger counter = new AtomicInteger(0);
@@ -78,7 +78,7 @@ public class APIAutomationHomework {
                 .stopAfter(10, ChronoUnit.SECONDS)
                 .execute();
 
-         */
+
         api.validateResponse();
     }
 
