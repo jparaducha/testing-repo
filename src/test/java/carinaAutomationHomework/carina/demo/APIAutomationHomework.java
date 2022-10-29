@@ -5,15 +5,23 @@ import carinaAutomationHomework.carina.demo.api.GetPostAutomation;
 import carinaAutomationHomework.carina.demo.api.PatchPostAutomation;
 import carinaAutomationHomework.carina.demo.api.PostPostAutomation;
 import carinaAutomationHomework.carina.demo.api.PostPostAutomation2;
+import com.google.gson.JsonObject;
+import com.jayway.jsonpath.DocumentContext;
 import com.qaprosoft.apitools.validation.JsonCompareKeywords;
 import com.qaprosoft.carina.core.foundation.api.APIMethodPoller;
 import com.qaprosoft.carina.core.foundation.api.http.HttpResponseStatusType;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.annotations.Test;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.time.temporal.ChronoUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -86,20 +94,24 @@ public class APIAutomationHomework {
 
     @Test
     @MethodOwner(owner = "paraducha")
-    public void TestPatchPost(){
+    public void TestPatchPost() throws IOException {
 
-        PatchPostAutomation api = new PatchPostAutomation();
+
+        PostPostAutomation postPostAutomation = new PostPostAutomation();
+        postPostAutomation.setProperties("api/posts/user.properties");
+
+        postPostAutomation.expectResponseStatus(HttpResponseStatusType.CREATED_201);
+        Response response = postPostAutomation.callAPI();
+
+        JsonPath extractor = response.jsonPath();
+
+        PatchPostAutomation api = new PatchPostAutomation( extractor.getString("id"));
         api.setProperties("api/posts/user.properties");
+        //api.replaceUrlPlaceholder("postId", extractor.getString("id"));
 
-        AtomicInteger counter = new AtomicInteger(0);
 
-        api.callAPIWithRetry()
-                .withLogStrategy(APIMethodPoller.LogStrategy.ALL)
-                .peek(rs -> counter.getAndIncrement())
-                .until(rs -> counter.get() == 4)
-                .pollEvery(1, ChronoUnit.SECONDS)
-                .stopAfter(10, ChronoUnit.SECONDS)
-                .execute();
+        api.expectResponseStatus(HttpResponseStatusType.OK_200);
+        api.callAPI();
         api.validateResponse();
     }
 
