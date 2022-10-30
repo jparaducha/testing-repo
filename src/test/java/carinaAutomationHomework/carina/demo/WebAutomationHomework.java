@@ -9,6 +9,7 @@ import com.qaprosoft.carina.core.foundation.utils.tag.Priority;
 import com.qaprosoft.carina.core.foundation.utils.tag.TestPriority;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 public class WebAutomationHomework implements IAbstractTest {
@@ -52,12 +53,12 @@ public class WebAutomationHomework implements IAbstractTest {
         Assert.assertTrue(yahooHomePage.getWeatherBlock().isElementPresent(), "weather block is not present");
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, dataProvider = "dataProvider")
     @MethodOwner(owner = "paraducha")
     @TestPriority(Priority.P3)
-    public void testSearchSomething () throws InterruptedException {
+    public void testSearchSomething (String search) throws InterruptedException {
         yahooHomePage.getSearchBar().isElementPresent();
-        yahooSearchResults = yahooHomePage.typeIntoSearchBar("Federer");
+        yahooSearchResults = yahooHomePage.typeIntoSearchBar(search);
 
         Assert.assertTrue(yahooSearchResults.getNewsTitle().isElementPresent(), "latest news title is not present");
 
@@ -75,5 +76,13 @@ public class WebAutomationHomework implements IAbstractTest {
         YahooLoginPage yahooLoginPage = new YahooLoginPage(yahooHomePage.clickLoginButton());
 
         Assert.assertTrue(yahooLoginPage.getLoginBox().isElementPresent(), "login box is not present");
+    }
+
+    @DataProvider()
+    public Object[][] dataProvider () {
+
+        Object[][] search = {{"Federer"}};
+
+        return search;
     }
 }
