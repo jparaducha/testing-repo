@@ -27,8 +27,6 @@ public class WebAutomationHomework implements IAbstractTest {
     @MethodOwner(owner = "paraducha")
     @TestPriority(Priority.P1)
     public void testOpenPage () {
-        //YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
-        //yahooHomePage.open();
 
         Assert.assertTrue(yahooHomePage.isPageOpened(), "home page is not opened");
     }
@@ -37,8 +35,6 @@ public class WebAutomationHomework implements IAbstractTest {
     @MethodOwner(owner = "paraducha")
     @TestPriority(Priority.P2)
     public void testLogoIsShown () {
-        //YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
-        //yahooHomePage.open();
 
         Assert.assertTrue(yahooHomePage.getLogoImages().get(0).isElementPresent(), "logo is not shown");
     }
@@ -47,8 +43,6 @@ public class WebAutomationHomework implements IAbstractTest {
     @MethodOwner(owner = "paraducha")
     @TestPriority(Priority.P2)
     public void testWeatherBlockIsPresent () {
-        //YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
-        //yahooHomePage.open();
 
         Assert.assertTrue(yahooHomePage.getWeatherBlock().isElementPresent(), "weather block is not present");
     }
@@ -56,15 +50,13 @@ public class WebAutomationHomework implements IAbstractTest {
     @Test(priority = 3, dataProvider = "dataProvider")
     @MethodOwner(owner = "paraducha")
     @TestPriority(Priority.P3)
-    public void testSearchSomething (String search) throws InterruptedException {
+    public void testSearchSomething (String search) {
         yahooHomePage.getSearchBar().isElementPresent();
         yahooSearchResults = yahooHomePage.typeIntoSearchBar(search);
 
         Assert.assertTrue(yahooSearchResults.getNewsTitle().isElementPresent(), "latest news title is not present");
 
         //yahooHomePage = YahooHomePage(yahooSearchResults.goBack());
-
-        //Assert.assertTrue(yahooHomePage.getNewsTitle().isElementPresent(), "latest news title is not present");
     }
 
     @Test(priority = 4)
