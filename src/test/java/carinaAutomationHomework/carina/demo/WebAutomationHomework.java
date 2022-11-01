@@ -1,5 +1,6 @@
 package carinaAutomationHomework.carina.demo;
 
+import carinaAutomationHomework.carina.demo.gui.components.LoginComponent;
 import carinaAutomationHomework.carina.demo.gui.pages.YahooHomePage;
 import carinaAutomationHomework.carina.demo.gui.pages.YahooLoginPage;
 import carinaAutomationHomework.carina.demo.gui.pages.YahooSearchResults;
@@ -48,9 +49,9 @@ public class WebAutomationHomework implements IAbstractTest {
         yahooSearchResults.isNewsTitlePresent();
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4, dataProvider = "loginData")
     @MethodOwner(owner = "paraducha")
-    public void testLoginPage () {
+    public void testLoginPage (String email, String password, String username) {
         YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
         yahooHomePage.open();
 
@@ -58,6 +59,10 @@ public class WebAutomationHomework implements IAbstractTest {
         YahooLoginPage yahooLoginPage = new YahooLoginPage(yahooHomePage.clickLoginButton());
 
         yahooLoginPage.isLoginBoxPresent();
+        LoginComponent loginComponent = yahooLoginPage.getLoginComponent();
+        yahooHomePage = loginComponent.loginToPage(email, password);
+
+        yahooHomePage.isUserNameDisplayed(username);
     }
 
     @DataProvider()
@@ -66,5 +71,11 @@ public class WebAutomationHomework implements IAbstractTest {
         Object[][] search = {{"Federer"}};
 
         return search;
+    }
+
+    @DataProvider()
+    public Object[][] loginData () {
+
+        return new Object[][]{{"testingpurposes943@yahoo.com", "testwebtest", "Testing"}};
     }
 }

@@ -4,7 +4,9 @@ import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,8 @@ public class YahooHomePage extends AbstractPage {
     private ExtendedWebElement searchButton;
     @FindBy(xpath = "//div[@id='ybarAccountProfile']//a")
     private ExtendedWebElement loginButton;
+    // @FindBy(xpath = "//label[@id='ybarAccountMenuOpener']//span[contains(text(),'Testing')]")
+    // private ExtendedWebElement userName;
 
     public YahooHomePage (WebDriver driver) {
         super(driver);
@@ -64,5 +68,21 @@ public class YahooHomePage extends AbstractPage {
         searchBar.type(search);
         searchButton.click();
         return new YahooSearchResults(driver);
+    }
+
+    public void isUserNameDisplayed (String username) {
+
+        WebElement userInfo = driver.findElement(By.id("ybarAccountMenuOpener"));
+        List<WebElement> userInfoNodes = userInfo.findElements(By.tagName("span"));
+        WebElement userName = null;
+
+        for (WebElement childNode : userInfoNodes) {
+
+            if (childNode.getText().equals(username)) {
+                userName = childNode;
+            }
+        }
+
+        Assert.assertTrue(userName.isDisplayed());
     }
 }
