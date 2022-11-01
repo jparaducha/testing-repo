@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -36,8 +37,20 @@ public class YahooHomePage extends AbstractPage {
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
-    public ExtendedWebElement getLoginButton () {
-        return loginButton;
+    public void isLogoLoaded () {
+        Assert.assertTrue(logoImages.get(0).isElementPresent(), "logo is not shown");
+    }
+
+    public void isWeatherBlockPresent () {
+        Assert.assertTrue(weatherBlock.isElementPresent(), "weather block is not present");
+    }
+
+    public void isSearchBarPresent () {
+        Assert.assertTrue(searchBar.isElementPresent(), "search bar is not present");
+    }
+
+    public void isLoginBtnPresent () {
+        Assert.assertTrue(loginButton.isElementPresent(), "login button is not present");
     }
 
     public WebDriver clickLoginButton () {
@@ -46,26 +59,10 @@ public class YahooHomePage extends AbstractPage {
         return driver;
     }
 
-    public ExtendedWebElement getSearchButton () {
-        return searchButton;
-    }
-
-    public ExtendedWebElement getSearchBar () {
-        return searchBar;
-    }
-
     public YahooSearchResults typeIntoSearchBar (String search) {
 
         searchBar.type(search);
         searchButton.click();
         return new YahooSearchResults(driver);
-    }
-
-    public List<ExtendedWebElement> getLogoImages () {
-        return logoImages;
-    }
-
-    public ExtendedWebElement getWeatherBlock () {
-        return weatherBlock;
     }
 }

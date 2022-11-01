@@ -6,6 +6,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class YahooSearchResults extends AbstractPage {
     @FindBy(xpath = "//li[@class='first']//a[contains(text(),'Últimas noticias')]")
@@ -16,13 +17,13 @@ public class YahooSearchResults extends AbstractPage {
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
-    public ExtendedWebElement getNewsTitle () {
-        return title;
-    }
-
     public void goBack () {
         driver.navigate().back();
 
         //return driver;
+    }
+
+    public void isNewsTitlePresent () {
+        Assert.assertTrue(title.isElementPresent(), "latest news title is not present");
     }
 }

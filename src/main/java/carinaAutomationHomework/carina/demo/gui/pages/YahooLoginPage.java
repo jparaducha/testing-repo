@@ -6,6 +6,7 @@ import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebEleme
 import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.testng.Assert;
 
 public class YahooLoginPage extends AbstractPage {
 
@@ -17,7 +18,7 @@ public class YahooLoginPage extends AbstractPage {
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
-    public ExtendedWebElement getLoginBox () {
-        return loginBox;
+    public void isLoginBoxPresent () {
+        Assert.assertTrue(loginBox.isElementPresent(), "login box is not present");
     }
 }
