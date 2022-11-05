@@ -1,6 +1,6 @@
 package carinaAutomationHomework.carina.demo;
 
-import carinaAutomationHomework.carina.demo.mobile.gui.pages.android.TranslatorPage;
+import carinaAutomationHomework.carina.demo.mobile.gui.pages.common.TranslatorPageBase;
 import com.qaprosoft.carina.core.foundation.IAbstractTest;
 import com.qaprosoft.carina.core.foundation.utils.mobile.IMobileUtils;
 import com.qaprosoft.carina.core.foundation.utils.ownership.MethodOwner;
@@ -11,17 +11,15 @@ public class MobileAutomationHomework implements IAbstractTest, IMobileUtils {
     @Test()
     @MethodOwner(owner = "paraducha")
     public void testLoadScreen () {
-        TranslatorPage translatorPage = new TranslatorPage(getDriver());
-        translatorPage.isPhraseButtonPresent();
-        translatorPage.isBarLayoutPresent();
-        translatorPage.isLogoShown();
+        TranslatorPageBase translatorPage = initPage(getDriver(), TranslatorPageBase.class);
+        translatorPage.validateBasicElements();
     }
 
     @Test()
     @MethodOwner(owner = "paraducha")
     public void testOpenPhraseBook () {
-        TranslatorPage translatorPage = new TranslatorPage(getDriver());
+        TranslatorPageBase translatorPage = initPage(getDriver(), TranslatorPageBase.class);
 
-        translatorPage.clickPhraseBook();
+        translatorPage.validatePhraseBook();
     }
 }

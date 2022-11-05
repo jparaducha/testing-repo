@@ -1,13 +1,14 @@
 package carinaAutomationHomework.carina.demo.mobile.gui.pages.android;
 
-import com.qaprosoft.carina.core.foundation.utils.mobile.IMobileUtils;
+import carinaAutomationHomework.carina.demo.mobile.gui.pages.common.TranslatorPageBase;
+import com.qaprosoft.carina.core.foundation.utils.factory.DeviceType;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
-import com.qaprosoft.carina.core.gui.AbstractPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
-import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
-public class TranslatorPage extends AbstractPage implements IMobileUtils {
+@DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = TranslatorPageBase.class)
+public class TranslatorPage extends TranslatorPageBase {
 
     @FindBy(xpath = "//android.widget.Button[@content-desc='Saved']")
     private ExtendedWebElement phraseBookButton;
@@ -19,29 +20,28 @@ public class TranslatorPage extends AbstractPage implements IMobileUtils {
     private ExtendedWebElement googleLogo;
     @FindBy(xpath = "//android.widget.FrameLayout[@content-desc='Saved']/android.view.ViewGroup")
     private ExtendedWebElement saved;
+    @FindBy(xpath = "//android.widget.ImageButton[@content-desc='Navigate up']")
+    private ExtendedWebElement navigateUp;
 
     public TranslatorPage (WebDriver driver) {
         super(driver);
     }
 
-    public void isPhraseButtonPresent () {
-        Assert.assertTrue(phraseBookButton.isElementPresent(), "phrase book button is not present");
+    @Override
+    public void validateBasicElements () {
+        SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertTrue(phraseBookButton.isElementPresent(5), "phrase book button is not present");
+        softAssert.assertTrue(barLayout.isElementPresent(2), "bar layout is not present");
+        softAssert.assertTrue(toolBar.isElementPresent(2), "tool bar is not present");
+        softAssert.assertTrue(googleLogo.isElementPresent(2), "google logo is not shown");
+        softAssert.assertAll("One or more elements didn't load");
     }
 
-    public void isBarLayoutPresent () {
-        Assert.assertTrue(barLayout.isElementPresent(), "bar layout is not present");
-    }
-
-    public void clickPhraseBook () {
+    @Override
+    public void validatePhraseBook () {
         phraseBookButton.click();
-        Assert.assertTrue(saved.isElementPresent(), "Saved element is not present");
-    }
-
-    public void isToolBarPresent () {
-        Assert.assertTrue(toolBar.isElementPresent(), "tool bar is not present");
-    }
-
-    public void isLogoShown () {
-        Assert.assertTrue(googleLogo.isElementPresent(), "google logo is not shown");
+        saved.assertElementPresent(5);
+        //Assert.assertTrue(saved.isElementPresent(), "Saved element is not present");
     }
 }
