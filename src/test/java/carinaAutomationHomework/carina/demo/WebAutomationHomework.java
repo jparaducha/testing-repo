@@ -17,22 +17,13 @@ public class WebAutomationHomework implements IAbstractTest {
     @Test(priority = 1)
     @MethodOwner(owner = "paraducha")
     @TestPriority(Priority.P1)
-    public void testOpenPage () {
+    public void testBasicElements () {
 
         YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
         yahooHomePage.open();
         Assert.assertTrue(yahooHomePage.isPageOpened(), "home page is not opened");
 
-        yahooHomePage.isLogoLoaded();
-    }
-
-    @Test(priority = 2)
-    @MethodOwner(owner = "paraducha")
-    @TestPriority(Priority.P2)
-    public void testWeatherBlockIsPresent () {
-        YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
-        yahooHomePage.open();
-        yahooHomePage.isWeatherBlockPresent();
+        yahooHomePage.validateUIElements();
     }
 
     @Test(priority = 3, dataProvider = "dataProvider")
@@ -41,28 +32,28 @@ public class WebAutomationHomework implements IAbstractTest {
     public void testSearchSomething (String search) {
         YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
         yahooHomePage.open();
-        yahooHomePage.isSearchBarPresent();
+        yahooHomePage.validateSearchBar();
 
         YahooSearchResults yahooSearchResults;
-        yahooSearchResults = yahooHomePage.typeIntoSearchBar(search);
+        yahooSearchResults = yahooHomePage.Search(search);
 
         yahooSearchResults.isNewsTitlePresent();
     }
 
     @Test(priority = 4, dataProvider = "loginData")
     @MethodOwner(owner = "paraducha")
-    public void testLoginPage (String email, String password, String username) {
+    public void testLoginUser (String email, String password, String username) {
         YahooHomePage yahooHomePage = new YahooHomePage(getDriver());
         yahooHomePage.open();
 
-        yahooHomePage.isLoginBtnPresent();
+        yahooHomePage.validateLoginBtn();
         YahooLoginPage yahooLoginPage = new YahooLoginPage(yahooHomePage.clickLoginButton());
 
         yahooLoginPage.isLoginBoxPresent();
         LoginComponent loginComponent = yahooLoginPage.getLoginComponent();
         yahooHomePage = loginComponent.loginToPage(email, password);
 
-        yahooHomePage.isUserNameDisplayed(username);
+        yahooHomePage.validateUserNameDisplay(username);
     }
 
     @DataProvider()

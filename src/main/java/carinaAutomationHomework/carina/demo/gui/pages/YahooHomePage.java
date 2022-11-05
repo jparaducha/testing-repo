@@ -4,13 +4,12 @@ import com.qaprosoft.carina.core.foundation.utils.Configuration;
 import com.qaprosoft.carina.core.foundation.utils.R;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import com.qaprosoft.carina.core.gui.AbstractPage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import org.testng.asserts.SoftAssert;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
@@ -23,15 +22,14 @@ public class YahooHomePage extends AbstractPage {
     private List<ExtendedWebElement> logoImages;
     @FindBy(xpath = "//div[@id='module-weather']//div[@id='grid-layout']")
     private ExtendedWebElement weatherBlock;
-    //@FindBy(id = "ybar-sbq")
     @FindBy(xpath = "//input[@id='ybar-sbq']")
     private ExtendedWebElement searchBar;
     @FindBy(xpath = "//button[@id='ybar-search']")
     private ExtendedWebElement searchButton;
     @FindBy(xpath = "//div[@id='ybarAccountProfile']//a")
     private ExtendedWebElement loginButton;
-    // @FindBy(xpath = "//label[@id='ybarAccountMenuOpener']//span[contains(text(),'Testing')]")
-    // private ExtendedWebElement userName;
+    @FindBy(xpath = "//label[@id='ybarAccountMenuOpener']//span[contains(text(),'%s')]")
+    private ExtendedWebElement userNameSpan;
 
     public YahooHomePage (WebDriver driver) {
         super(driver);
@@ -41,20 +39,21 @@ public class YahooHomePage extends AbstractPage {
         setPageAbsoluteURL(R.CONFIG.get(Configuration.Parameter.URL.getKey()));
     }
 
-    public void isLogoLoaded () {
-        Assert.assertTrue(logoImages.get(0).isElementPresent(), "logo is not shown");
+    public void validateUIElements () {
+        SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertTrue(logoImages.get(0).isElementPresent(5), "logo is not shown");
+        softAssert.assertTrue(weatherBlock.isElementPresent(5), "weather block is not present");
+        softAssert.assertAll();
     }
 
-    public void isWeatherBlockPresent () {
-        Assert.assertTrue(weatherBlock.isElementPresent(), "weather block is not present");
+    public void validateSearchBar () {
+        searchBar.assertElementPresent(5);
+        //Assert.assertTrue(searchBar.isElementPresent(5), "search bar is not present");
     }
 
-    public void isSearchBarPresent () {
-        Assert.assertTrue(searchBar.isElementPresent(), "search bar is not present");
-    }
-
-    public void isLoginBtnPresent () {
-        Assert.assertTrue(loginButton.isElementPresent(), "login button is not present");
+    public void validateLoginBtn () {
+        Assert.assertTrue(loginButton.isElementPresent(5), "login button is not present");
     }
 
     public WebDriver clickLoginButton () {
@@ -63,26 +62,15 @@ public class YahooHomePage extends AbstractPage {
         return driver;
     }
 
-    public YahooSearchResults typeIntoSearchBar (String search) {
+    public YahooSearchResults Search (String search) {
 
         searchBar.type(search);
         searchButton.click();
         return new YahooSearchResults(driver);
     }
 
-    public void isUserNameDisplayed (String username) {
+    public void validateUserNameDisplay (String username) {
 
-        WebElement userInfo = driver.findElement(By.id("ybarAccountMenuOpener"));
-        List<WebElement> userInfoNodes = userInfo.findElements(By.tagName("span"));
-        WebElement userName = null;
-
-        for (WebElement childNode : userInfoNodes) {
-
-            if (childNode.getText().equals(username)) {
-                userName = childNode;
-            }
-        }
-
-        Assert.assertTrue(userName.isDisplayed());
+        userNameSpan.format(username).assertElementPresent(5);
     }
 }
