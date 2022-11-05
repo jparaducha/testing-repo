@@ -12,4 +12,6 @@ public abstract class TranslatorPageBase extends AbstractPage {
     public abstract void validateBasicElements ();
 
     public abstract void validatePhraseBook ();
+
+    public abstract void validateTranslation (String text, String language);
 }

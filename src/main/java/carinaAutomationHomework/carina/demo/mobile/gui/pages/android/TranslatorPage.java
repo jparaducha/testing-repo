@@ -5,10 +5,16 @@ import com.qaprosoft.carina.core.foundation.utils.factory.DeviceType;
 import com.qaprosoft.carina.core.foundation.webdriver.decorator.ExtendedWebElement;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.FindBy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.asserts.SoftAssert;
+
+import java.lang.invoke.MethodHandles;
 
 @DeviceType(pageType = DeviceType.Type.ANDROID_PHONE, parentClass = TranslatorPageBase.class)
 public class TranslatorPage extends TranslatorPageBase {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FindBy(xpath = "//android.widget.Button[@content-desc='Saved']")
     private ExtendedWebElement phraseBookButton;
@@ -22,6 +28,12 @@ public class TranslatorPage extends TranslatorPageBase {
     private ExtendedWebElement saved;
     @FindBy(xpath = "//android.widget.ImageButton[@content-desc='Navigate up']")
     private ExtendedWebElement navigateUp;
+    @FindBy(id = "com.google.android.apps.translate:id/enter_text_label")
+    private ExtendedWebElement enterTextLabel;
+    @FindBy(id = "com.google.android.apps.translate:id/language_button_a")
+    private ExtendedWebElement originLanguage;
+    @FindBy(id = "com.google.android.apps.translate:id/text_input_field")
+    private ExtendedWebElement textInputField;
 
     public TranslatorPage (WebDriver driver) {
         super(driver);
@@ -43,5 +55,15 @@ public class TranslatorPage extends TranslatorPageBase {
         phraseBookButton.click();
         saved.assertElementPresent(5);
         //Assert.assertTrue(saved.isElementPresent(), "Saved element is not present");
+    }
+
+    @Override
+    public void validateTranslation (String text, String language) {
+
+        enterTextLabel.click();
+        textInputField.type(text);
+        //AndroidDriver androidDriver = (AndroidDriver) driver;
+        //androidDriver.pressKey(new KeyEvent(AndroidKey.ENTER));
+        Assert.assertEquals(originLanguage.getText(), language, "origin language is not correct");
     }
 }
