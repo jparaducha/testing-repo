@@ -35,6 +35,11 @@ public class TranslatorPage extends TranslatorPageBase {
     @FindBy(id = "com.google.android.apps.translate:id/text_input_field")
     private ExtendedWebElement textInputField;
 
+    @FindBy(id = "com.google.android.apps.translate:id/language_label")
+    private ExtendedWebElement originalLanguageLabel;
+    @FindBy(id = "com.google.android.apps.translate:id/card_header//com.google.android.apps.translate:id/language_label")
+    private ExtendedWebElement newLanguageLabel;
+
     public TranslatorPage (WebDriver driver) {
         super(driver);
     }
@@ -58,12 +63,13 @@ public class TranslatorPage extends TranslatorPageBase {
     }
 
     @Override
-    public void validateTranslation (String text, String language) {
+    public void validateOriginLanguage (String text, String language) {
 
         enterTextLabel.click();
         textInputField.type(text);
         //AndroidDriver androidDriver = (AndroidDriver) driver;
         //androidDriver.pressKey(new KeyEvent(AndroidKey.ENTER));
-        Assert.assertEquals(originLanguage.getText(), language, "origin language is not correct");
+        originalLanguageLabel.assertElementPresent(3);
+        Assert.assertEquals(originalLanguageLabel.getText(), language, "origin language is not correct");
     }
 }

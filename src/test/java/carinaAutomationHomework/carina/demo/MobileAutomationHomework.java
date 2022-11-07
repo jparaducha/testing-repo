@@ -29,7 +29,7 @@ public class MobileAutomationHomework implements IAbstractTest, IMobileUtils {
     public void testTranslations (String text, String language) {
         TranslatorPageBase translatorPage = initPage(getDriver(), TranslatorPageBase.class);
 
-        translatorPage.validateTranslation(text, language);
+        translatorPage.validateOriginLanguage(text, language);
     }
 
     @DataProvider
